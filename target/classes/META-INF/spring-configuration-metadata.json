@@ -1,0 +1,37 @@
+{
+  "groups": [
+    {
+      "name": "github",
+      "type": "com.nexus.pojo.GithubParams",
+      "sourceType": "com.nexus.pojo.GithubParams"
+    }
+  ],
+  "properties": [
+    {
+      "name": "github.client-id",
+      "type": "java.lang.String",
+      "sourceType": "com.nexus.pojo.GithubParams"
+    },
+    {
+      "name": "github.client-secret",
+      "type": "java.lang.String",
+      "sourceType": "com.nexus.pojo.GithubParams"
+    },
+    {
+      "name": "github.redirect-uri",
+      "type": "java.lang.String",
+      "sourceType": "com.nexus.pojo.GithubParams"
+    },
+    {
+      "name": "github.token-uri",
+      "type": "java.lang.String",
+      "sourceType": "com.nexus.pojo.GithubParams"
+    },
+    {
+      "name": "github.user-uri",
+      "type": "java.lang.String",
+      "sourceType": "com.nexus.pojo.GithubParams"
+    }
+  ],
+  "hints": []
+}

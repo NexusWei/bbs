@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Title</title>
+
+    <!-- 网上的解释是在SpringBoot中，默认配置的/**映射到/static-->
+    <!-- Bootstrap核心css文件 -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">-->
+    <link href="../../css/user.css" rel="stylesheet">
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/user.css}">-->
+</head>
+<body>
+    <!-- 导航栏可以固定在头部或者底部。fixed-top固定在头部-->
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <h5 class="my-0 font-weight-normal">Nexus</h5>
+
+        <nav class="navbar mr-md-auto d-flex flex-md-row flex-column align-items-center">
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="搜索问题" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+            </form>
+        </nav>
+
+        <div class="padding-right:50px">
+            <nav class="navbar navbar-expand-lg bg-white navbar-light ">
+                <div class="collapse navbar-collapse" id="navbarNavDropdown" >
+
+                    <ul class="navbar-nav">
+                        <!-- session为空，注册、登录、github登录显示 -->
+                        <!-- 注意，这里为and，个人资料页为或 -->
+                        <!-- 即user或者githubUser都为空，才显示注册。 -->
+                        <li class="nav-item" th:if="${session.user == null && session.githubUser == null}">
+                            <a class="nav-link p-2 text-dark" href="/register">注册</a>
+                        </li>
+                        <li class="nav-item" th:if="${session.user == null && session.githubUser == null}">
+                            <a class="nav-link p-2 text-dark" href="/loginEmail">邮箱登录</a>
+                        </li>
+                        <li class="nav-item" th:if="${session.user == null && session.githubUser == null}">
+                            <a class="nav-link p-2 text-dark" href="/login">登录</a>
+                        </li>
+                        <li class="nav-item" th:if="${session.user == null && session.githubUser == null}">
+                            <a class="nav-link p-2 text-dark" href="https://github.com/login/oauth/authorize?client_id=f87bf1b0fa17b11a6eb2&redirect_uri=http://localhost:8080/callback&scope=user&state=1">Github登录</a>
+                        </li>
+                        <li class="nav-item" th:if="${session.user == null && session.githubUser == null}">
+                            <a class="nav-link p-2 text-dark" href="https://github.com/login/oauth/authorize?client_id=f87bf1b0fa17b11a6eb2&redirect_uri=http://localhost:8080/callback&scope=user&state=1">
+                                <img src="../../img/github.svg" title="github" alt="github登录">
+                            </a>
+                        </li>
+
+                        <!-- session不为空，个人资料页显示 -->
+                        <!-- user或者githubUser一条不为空，就可以显示资料页 -->
+                        <li class="nav-item dropdown" th:if="${session.user != null || session.githubUser != null}">
+                            <a class="nav-link dropdown-toggle p-2 text-dark" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                我
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item p-2 text-dark" href="#">消息中心</a>
+                                <a class="dropdown-item p-2 text-dark" href="#">个人资料</a>
+                                <a class="dropdown-item p-2 text-dark" href="#">修改密码</a>
+                                <a class="dropdown-item p-2 text-dark" href="#" onclick="logout()">登出</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link p-2 text-dark" id="time" th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss')}">time</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+
+
+<!-- head中不要引入 jquery和javascript，以免效果覆盖反而都不生效。 -->
+<!-- jQuery 和js 放在最后面，-->
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<!--<script src="../../jquery/jquery-3.5.1.js"></script>-->
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。也可以根据需要只加载单个插件。 -->
+<!--<script src="../../js/bootstrap.min.js"></script>-->
+
+    <!-- 确认退出的方法 -->
+    <script type="text/javascript">
+        function logout() {
+            swal({
+                title: "确定退出登录吗?",
+                icon: "warning",
+                buttons: ["取消", "退出"],
+                dangerMode: true,
+            }).then((quit) => {
+                if (quit) {
+                    window.location.href = '/logout';
+                }else{
+                    swal("您已取消退出登录", {
+                        icon: "success",
+                        timer: 3000,
+                    });
+                }
+            });
+        }
+    </script>
+
+    <!-- 动态更新时间 -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function setTime(){
+            let dt=new Date();
+            let arr_week=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+            let strWeek=arr_week[dt.getDay()];
+            let strHour=dt.getHours();
+            let strMinutes=dt.getMinutes();
+            let strSeconds=dt.getSeconds();
+            if (strMinutes<10) strMinutes="0"+strMinutes;
+            if (strSeconds<10) strSeconds="0"+strSeconds;
+            let strYear=dt.getFullYear()+"年";
+            let strMonth=(dt.getMonth()+1)+"月";
+            let strDay=dt.getDate()+"日";
+            <!--var strTime=strHour+":"+strMinutes+":"+strSeconds;-->
+            strTime=strHour+":"+strMinutes+":"+strSeconds;
+            time.innerHTML=strYear+strMonth+strDay+" "+strTime+"  "+strWeek;
+        }
+        setInterval("setTime()",1);
+        /*]]>*/
+    </script>
+</body>
+</html>

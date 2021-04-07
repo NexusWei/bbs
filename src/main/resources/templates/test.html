@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+
+</head>
+<body>
+
+<script src="../jquery/jquery-3.5.1.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<!-- Sweet Alert 是一个替代传统的 JavaScript Alert 的“美化版”提示效果。
+SweetAlert 自动居中对齐在页面中央，不管是台式电脑，手机还是平板电脑看起来效果都很不错。
+项目地址:https://sweetalert.js.org/-->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<!--<button id="test" value="1111"> </button>-->
+<!--<input type="button" onclick="alert('a')" value="alert测试" />-->
+<!--<img value="test" onclick="alert('a')" alt="点击" />-->
+<img src="/kaptcha" onclick="this.src='/kaptcha?d=' + new Date() * 1" alt="验证码" id="VerificationCode" title="看不清，点击换一张">
+<input type="text" maxlength="5" id="code" placeholder="请输入验证码">
+<!-- 这种办法会导致页面刷新，前端学的不好，以后再想办法。 -->
+<a href="" onclick="VerificationCode.src='/kaptcha?d=' + new Date() * 1">看不清？换一张</a>
+<button id="verify">验证</button>
+
+</body>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#verify").click(function () {
+            // ES6关键字let，解决局部作用域冲突问题。后面都换成let
+            let code = $("#code").val();
+            $.ajax({
+                type: 'GET',//方法类型
+                url: '/verify?code=' + code,
+                success: function (result) {
+                    alert(result);
+                },
+                error: function () {
+                    alert("请求失败");
+                }
+            })
+        })
+    })
+
+    // swal("Hello world!", {
+    //     buttons: false,
+    // });
+
+
+    // swal({
+    //                     title: "注册成功",
+    //                     text: "是否跳转至登录页?",
+    //                     // 图标
+    //                     icon: "success",
+    //                     // 按钮：并设置true的值为登录。
+    //                     buttons: [true, "登录"],
+    //
+    //                     // 登录按钮
+    //                     dangerMode: true,
+    //                 })
+
+
+    //注册按钮onclick事件改为register()即可
+    // function register() {
+    //     // var username = $("#username").val();
+    //     // if (!validPhoneNumber(loginName)) {
+    //     //     swal('请输入正确的登录名(即手机号)', {
+    //     //         icon: "error",
+    //     //     });
+    //     //     return false;
+    //     // }
+    //
+    //     // var password = $("#password").val();
+    //     // if (!validPassword(password)) {
+    //     //     swal('请输入正确的密码格式(6-20位字符和数字组合)', {
+    //     //         icon: "error",
+    //     //     });
+    //     //     return false;
+    //     // }
+    //     // var verifyCode = $("#verifyCode").val();
+    //     // if (!validLength(verifyCode, 7)) {
+
+                // 弹出一个请输入验证码的弹窗
+    //     //     swal('请输入正确的验证码', {
+    //     //         icon: "error",
+    //     //     });
+    //     //     return false;
+    //     // }
+    //
+    //
+    //
+    //     //验证
+    //     // serialize 取的是各input里的name的值，可不是id，这里一定要注意。
+    //     // 实验：https://www.w3school.com.cn/tiy/t.asp?f=jquery_ajax_serialize
+    //     // var params = $("#register").serialize();
+    //     // var url = '/register';
+    //     // $.ajax({
+    //     //     type: 'POST',//方法类型
+    //     //     url: url,
+    //     //     data: params,
+    //     //     // data: {"username":username,"password":password,"email":email},
+    //     //     success: function (result) {
+    //     //         if (result.resultCode == 200) {
+    //     //             swal({
+    //     //                 title: "注册成功",
+    //     //                 text: "是否跳转至登录页?",
+    //     //                 icon: "success",
+    //     //                 buttons: true,
+    //     //                 dangerMode: true,
+    //     //             }).then((flag) => {
+    //     //                     if (flag) {
+    //     //                         window.location.href = '/login';
+    //     //                     }
+    //     //                 }
+    //     //             )
+    //     //             ;
+    //     //         } else {
+    //     //             swal(result.message, {
+    //     //                 icon: "error",
+    //     //             });
+    //     //         }
+    //     //         ;
+    //     //     },
+    //     //     error: function () {
+    //     //         swal("操作失败", {
+    //     //             icon: "error",
+    //     //
+    //     //         });
+    //     //     }
+    //     // });
+    // }
+</script>
+
+</html>

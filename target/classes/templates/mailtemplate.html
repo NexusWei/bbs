@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>邮件</title>
+</head>
+<body>
+<div>邮箱激活</div>
+<div>您的注册信息是：
+    <table border="1">
+        <tr>
+            <td>用户名</td>
+            <td th:text="${username}"></td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <!-- 这里暂时用百度测试 -->
+    <a href="http://www.baidu.com">核对无误请点击本链接激活邮箱</a>
+</div>
+</body>
+</html>

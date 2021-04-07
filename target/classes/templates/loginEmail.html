@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>邮箱登录</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/sweetalert.css" rel="stylesheet">
+    <!--    <link href="../css/common/common.css" rel="stylesheet">-->
+
+    <style type="text/css">
+        .middle{
+            margin-top: auto !important;
+            margin-bottom: auto !important;
+            padding: 100px 50px 50px 50px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 10px 10px 5px rgb(0,0,0,0.1);
+            height: 75%!important;
+            width: 75%!important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+        .login {
+            margin-left: 20px;
+        }
+        .btn {
+            border-radius: 28px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="common/head::html" ></div>
+
+<div class="container">
+    <div class="middle mx-auto" >
+        <div class="row">
+            <div class="col col-12 col-md-6">
+                <!--                    这里预计放一个图片 -->
+                <!--                    <img class="rounded img-fluid" src="./image/login.png" alt="web开发">-->
+            </div>
+
+            <div class="col col-12 col-md-6">
+                <div class="login">
+                    <h5>登录</h5>
+                    <form class="form-horizontal login" id="loginEmail" method="post">
+
+                        <div class="form-group">
+                            <label for="email" class="sr-only">邮箱：</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                   placeholder="请输入电子邮箱" required>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="password" class="sr-only">密码：</label>
+                            <input name="password" type="password" class="form-control" id="password" placeholder="请输入密码" required>
+                        </div>
+
+                        <!-- 验证码 -->
+                        <div class="form-group">
+                            <label for="verifyCode" class="sr-only">验证码：</label>
+                            <input class="form-control verify-code" type="text" name="verifyCode" id="verifyCode"
+                                   placeholder="请输入验证码" maxlength="4" required/>
+                        </div>
+
+                        <div class="form-group">
+                            <img alt="验证码，点击图片刷新！"  th:src="@{/kaptcha}"
+                                 onclick="this.src='/kaptcha?d='+new Date()*1" id="VerificationCode" title="看不清，点击换一张">
+                        </div>
+
+                        <div class="form-group">
+                            <input class="btn btn-primary w-75 mx-auto" type="button" id="submit" onclick="loginEmail()" value="登 录">
+                        </div>
+
+                        <div class="form-group">
+                            <a href="login.html" class="btn btn-link text-left">使用用户名登录</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 引入页脚 -->
+<div th:replace="common/footer::html" ></div>
+
+<script src="../jquery/jquery-3.5.1.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script th:src="@{/js/regularExpression.js}"></script>
+<script src="../js/sweetalert.min.js"></script>
+
+</body>
+
+<script type="text/javascript">
+
+    //注册按钮onclick事件改为loginEmail()即可
+    function loginEmail() {
+        // $("#username")是id选择器,获得id为username的标签
+        // .val() 方法返回或设置被选元素的 value 属性。
+        // 即通过.val()获取id为username的值，赋给var username
+        let email = $("#email").val();
+        let password = $("#password").val();
+        let verifyCode = $("#verifyCode").val();
+
+        // 邮箱验证
+        if (!validEmail(email)) {
+            swal('请输入正确的邮箱', {
+                icon: "error",
+            });
+            return false;
+        }
+
+        if (!validPassword(password)) {
+            swal('请输入正确的密码格式(6-20位字符和数字组合)', {
+                icon: "error",
+            });
+            return false;
+        }
+
+        if (!validLength(verifyCode, 5)) {
+            swal('请输入正确的验证码', {
+                icon: "error",
+                text: verifyCode,
+            });
+            return false;
+        }
+
+        //验证
+        // serialize 取的是各input里的name的值，可不是id，这里一定要注意。
+        // 实验：https://www.w3school.com.cn/tiy/t.asp?f=jquery_ajax_serialize
+        let params = $("#loginEmail").serialize();
+
+        // 该url影响网址中的参数，和controller有关系
+        let url = '/loginEmail';
+        $.ajax({
+            type: 'POST',//方法类型
+            url: url,
+            data: params,
+
+            success: function (result) {
+                if (result.code === 102) {
+                    window.location.href = '/index';
+                } else {
+                    swal({
+                        title: "登录失败",
+                        text: result.message,
+                        icon: "error",
+                    });
+                }
+            },
+        });
+    }
+</script>
+
+</html>

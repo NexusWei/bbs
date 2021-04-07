@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>注册邮件</title>
+</head>
+<body>
+    <div>
+        <p>
+            <b th:text="${username}">username</b>, 您好!
+        </p>
+    </div>
+
+    <div>
+        <p>
+            您正在注册Nexus社区, 这是一封激活邮件, 请点击
+            <a th:href="${url}">http://localhost:8080/activation</a>,
+            激活您的账号!
+        </p>
+
+        <p>
+            您的激活码为：<b th:text="${activationCode}">activationCode</b>
+        </p>
+
+    </div>
+
+</body>
+</html>
