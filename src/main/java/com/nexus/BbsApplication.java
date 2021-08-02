@@ -9,7 +9,7 @@ import org.springframework.core.SpringVersion;
 
 @SpringBootApplication
 // 添加对 Mapper 包扫描，这样不用在每个Mapper上添加@Mapper
- @MapperScan("com.nexus.mapper")
+@MapperScan("com.nexus.mapper")
 public class BbsApplication {
 
     public static void main(String[] args) {

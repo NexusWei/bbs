@@ -43,18 +43,18 @@ public class AuthorizeController {
         // 不可猜测的随机字符串。 它用于防止跨站请求伪造攻击。
         // 这个纯属自己get https://github.com/login/oauth/authorize 时设置
         accessToken.setState(state);
-        // AccessToken(client_id=f87bf1b0fa17b11a6eb2, client_secret=e16079d77533066a876705063c51b9bd3edede1f, code=fb61d7bf5d064a0b5277, redirect_uri=http://localhost:8080/callback, state=1)--accessToken
+        // AccessToken(client_id=f87bf1b0fa17b11a6eb2, client_secret=e16079d7as27533066a876212705063c51b9bd3ede11de1f, code=fb6111d7bf5d33a064a33a0b5277, redirect_uri=http://localhost:8080/callback, state=1)--accessToken
 //        System.out.println(accessToken+"--accessToken");
 
         // 获取access_token
-        // b64cdbe92d07b486e1895a0d4b6913726cd3a255
+        // b64c11dbe92d07b486123e1895asa23aa20d4b6913726cd3a255
         String access_token = githubProvider.getAccessToken(accessToken);
 //        System.out.println(access_token);
 
         // 根据access_token获取用户信息
         GithubUser githubUser = githubProvider.getGithubUser(access_token);
 //        System.out.println(githubUser.getName());
-        // GithubUser(id=46276403, name=Nexus, bio=null, login=WeiDrogan)
+        // GithubUser(id=xxx, name=xxx, bio=null, login=xxx)
         // System.out.println(githubUser);
 
         // 数据库中有github用户信息，结果为true。没有信息，结果为flase

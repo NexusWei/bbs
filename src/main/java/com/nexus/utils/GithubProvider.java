@@ -37,7 +37,7 @@ public class GithubProvider {
             String string = response.body().string();
 
             // 得到的是类似这样的字符串，我们需要将它分割，只要access_token部分
-            // access_token=9566ba3483a556c610be42d44338f3fd16a3b8d1&scope=&token_type=bearer
+            // access_token=9566ba3483a1czv54sdx556c610xxxaabe42d44338f3fd16a3b8d1&scope=&token_type=bearer
 
             // 先按照&切割，只要&第0个。
             // String str = string.split("&")[0];
